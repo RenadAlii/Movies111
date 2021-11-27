@@ -34,6 +34,17 @@ class MoviesAdapter: ListAdapter<ResultsItem,
         fun bind(moviesData: ResultsItem){
             binding.data = moviesData
             //update immediately
+            binding.movieImage.setOnClickListener{
+                val action = PopularMoviesFragmentDirections
+                    .actionPopularMoviesFragmentToDetailsFragment(
+                        posterPath = moviesData.posterPath,
+                        overview = moviesData.overview,
+                        originalLanguage = moviesData.originalLanguage,
+                        originalTitle = moviesData.originalTitle
+                    )
+                //perform navigation action
+                itemView.findNavController().navigate(action)
+            }
             binding.executePendingBindings()
         }
     }
@@ -51,18 +62,7 @@ class MoviesAdapter: ListAdapter<ResultsItem,
         val movieDetails = getItem(position)
         holder.bind(movieDetails)
 
-        //set action on the click on the card to go to Movie details
-        holder.binding.movieImage.setOnClickListener{
-            val action = PopularMoviesFragmentDirections
-                .actionPopularMoviesFragmentToDetailsFragment(
-                    posterPath = movieDetails.posterPath,
-                    overview = movieDetails.overview,
-                    originalLanguage = movieDetails.originalLanguage,
-                    originalTitle = movieDetails.originalTitle
-                )
-            //perform navigation action
-            holder.itemView.findNavController().navigate(action)
-        }
+
 
     }
 }
